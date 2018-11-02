@@ -1,0 +1,41 @@
+{
+  "name": "monocycle-dom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "browserify": {
+    "transform": [
+      "brfs"
+    ]
+  },
+  "quokka": {
+    "node": "~/.nvm/current/bin/node"
+  },
+  "dependencies": {
+    "@cycle/dom": "^22.0.0",
+    "brfs": "^2.0.1",
+    "codemirror": "^5.41.0",
+    "csstips": "^0.3.0",
+    "csx": "^9.0.0",
+    "cyclejs-utils": "^4.0.2",
+    "lodash": "^4.17.11",
+    "ramda": "^0.25.0",
+    "ramda-adjunct": "^2.11.0",
+    "snabbdom": "^0.7.2",
+    "snabbdom-merge": "https://github.com/Gastonite/snabbdom-merge.git#dev",
+    "typestyle": "^2.0.1",
+    "xstream": "^11.7.0"
+  },
+  "devDependencies": {
+    "@cycle/time": "^0.16.0",
+    "snabbdom-to-html": "^5.1.1"
+  },
+  "peerDependencies": {
+    "snabbdom-merge": "https://github.com/Gastonite/monocycle.git#dev"
+  }
+}
