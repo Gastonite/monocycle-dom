@@ -6,7 +6,7 @@ const { FromEvent } = require("utilities/fromEvent")
 const style = require('style')
 const pipe = require('ramda/src/pipe')
 const isObject = require('lodash/isObject')
-const isFunction = require('lodash/isFunction')
+const isFunction = require('ramda-adjunct/lib/isFunction').default
 
 const fromEvent = FromEvent({
   on: 'on',

@@ -1,5 +1,5 @@
-const { ViewHelper } = require('components/View')
-const WithInput = ViewHelper('input')
+const { makeViewBehavior } = require('components/View')
+const WithInput = makeViewBehavior('input')
 
 module.exports = {
   default: WithInput,

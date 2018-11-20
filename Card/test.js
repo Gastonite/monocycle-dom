@@ -20,7 +20,7 @@ const { select } = require('snabbdom-selector')
 const { mockTimeSource } = require('@cycle/time')
 const { makeCard } = require('./');
 const { ok } = require('assert')
-const isFunction = require('lodash/isFunction')
+const isFunction = require('ramda-adjunct/lib/isFunction').default
 const stringify = require('monocycle/utilities/stringify')
 const SnabbdomToHTML = require('snabbdom-to-html')
 
@@ -48,7 +48,7 @@ suite('Card', () => {
       // },
     });
 
-    const card = makeCard()({ DOM });
+    // const card = makeCard()({ DOM });
 
     // ok(isFunction(card))
     // const r = stringify(card)

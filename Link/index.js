@@ -7,8 +7,8 @@ const when = require('ramda/src/when')
 const unless = require('ramda/src/unless')
 const prop = require('ramda/src/prop')
 const always = require('ramda/src/always')
-const isString = require('lodash/isString')
-const isFunction = require('lodash/isFunction')
+const isString = require('ramda-adjunct/lib/isString').default
+const isFunction = require('ramda-adjunct/lib/isFunction').default
 const log = require('monocycle/utilities/log').Log('Link')
 
 const prefixHref = (prefix, href = '') =>
@@ -53,7 +53,7 @@ const WithLink = (options = {}, Cycle) => {
       .map(log.partial('WithLink.coucou'))
       .map(from => ({
         ...from,
-        has: from.has ||  has,
+        has: from.has || has,
         attrs: {
           ...(from.attrs || {}),
           href: prefixHref(sources.History.prefix, href)

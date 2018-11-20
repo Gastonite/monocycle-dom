@@ -1,6 +1,6 @@
-const { ViewHelper } = require('components/View')
+const { makeViewBehavior } = require('components/View')
 
-const WithLabel = ViewHelper('label')
+const WithLabel = makeViewBehavior('label')
 
 module.exports = {
   default: WithLabel,

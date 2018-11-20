@@ -2,6 +2,7 @@ const stringify = require('monocycle/utilities/stringify')
 const { pre } = require('@cycle/dom')
 const { default: $ } = require('xstream')
 
+
 const WithDebug = ({
   View = pre,
   classes = { Debug: 'Debug' },
@@ -20,6 +21,8 @@ const WithDebug = ({
       : [c, Debug]
   )
 }
+
+
 
 const WithDebugState = (options = {}, Cycle) => WithDebug({
   ...options,

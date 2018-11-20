@@ -6,15 +6,21 @@ const defaultTo = require('ramda/src/defaultTo')
 const always = require('ramda/src/always')
 const over = require('ramda/src/over')
 const lensProp = require('ramda/src/lensProp')
-const concat = require('ramda/src/concat')
 const { rem } = require('csx/lib/units')
 const isBoolean = require('lodash/isBoolean')
-const isString = require('lodash/isString')
 
 const WithLayout = (options = {}, Cycle) => {
 
-  const parseOptions = pipe(
-    Cycle.coerce,
+  const {
+    // sel = '',
+    direction,
+    fill,
+    spaced,
+    gutter,
+    adapt,
+    // has,
+    ...viewOptions
+  } = options = pipe(
     over(lensProp('gutter'), pipe(
       defaultTo(true),
       when(isBoolean, when(Boolean, always(2)))
@@ -35,28 +41,17 @@ const WithLayout = (options = {}, Cycle) => {
       defaultTo(false),
       Boolean
     )),
-    over(lensProp('sel'), pipe(
-      unless(isString, always(''))
-    )),
-  )
+    // over(lensProp('sel'), pipe(
+    //   unless(isString, always(''))
+    // )),
+  )(options)
 
-  const {
-    sel = '',
-    direction,
-    fill,
-    spaced,
-    gutter,
-    adapt,
-    has,
-    ...viewOptions
-  } = options = parseOptions(options)
+  // const classes = { Layout: 'Layout', ...options.classes }
 
-  const classes = { Layout: 'Layout', ...options.classes }
-
-  Cycle.log('WithLayout()', { sel, spaced, adapt })
+  Cycle.log('WithLayout()', { spaced, adapt })
 
   return Cycle.get('View', {
-    sel: concat(sel, `.${classes.Layout}`),
+    // sel: concat(sel, `.${classes.Layout}`),
     ...viewOptions,
     class: {
       ...(viewOptions.class || {}),
@@ -69,7 +64,7 @@ const WithLayout = (options = {}, Cycle) => {
       ...(viewOptions.style || {}),
       padding: rem(+gutter)
     },
-    has
+    // has
   })
 }
 

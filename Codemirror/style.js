@@ -4,6 +4,7 @@ const codemirrorStyle = require('fs').readFileSync(require.resolve('codemirror/l
 
 const CodemirrorStyle = () => {
 
+  console.error('CodemirrorStyle()')
   cssRaw(codemirrorStyle)
 
   cssRule('.codemirror', {
@@ -30,5 +31,6 @@ const CodemirrorStyle = () => {
 }
 
 module.exports = {
-  default: CodemirrorStyle
+  default: CodemirrorStyle,
+  CodemirrorStyle
 }

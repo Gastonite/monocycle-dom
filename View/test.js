@@ -3,7 +3,7 @@ const { select } = require('snabbdom-selector')
 const { mockTimeSource } = require('@cycle/time')
 const { WithView } = require('./')
 const { ok } = require('assert')
-const isFunction = require('lodash/isFunction')
+const isFunction = require('ramda-adjunct/lib/isFunction').default
 const {makeComponent} = require('monocycle')
 const SnabbdomToHTML = require('snabbdom-to-html')
 

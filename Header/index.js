@@ -1,6 +1,6 @@
-const { ViewHelper } = require('components/View')
+const { makeViewBehavior } = require('components/View')
 
-const WithHeader = ViewHelper('header')
+const WithHeader = makeViewBehavior('header')
 
 module.exports = {
   default: WithHeader,

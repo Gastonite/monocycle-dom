@@ -1,4 +1,4 @@
-const isFunction = require('lodash/isFunction')
+const isFunction = require('ramda-adjunct/lib/isFunction').default
 const { WithLayout, makeLayout } = require('components/Layout')
 const { makeLinkList } = require('components/LinkList')
 const unless = require('ramda/src/unless')

@@ -25,7 +25,7 @@ const KindReducer = require('utilities/kind')
 const { Log } = require('monocycle/utilities/log')
 const isPlainObject = require('lodash/isPlainObject')
 const identity = require('lodash/identity')
-const isFunction = require('lodash/isFunction')
+const isFunction = require('ramda-adjunct/lib/isFunction').default
 const { Empty } = require('monocycle/component')
 const log = Log('Form')
 

@@ -1,6 +1,6 @@
-const { ViewHelper } = require('components/View')
+const { makeViewBehavior } = require('components/View')
 
-const WithParagraph = ViewHelper('p')
+const WithParagraph = makeViewBehavior('p')
 
 module.exports = {
   default: WithParagraph,

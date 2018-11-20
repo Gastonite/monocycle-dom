@@ -17,7 +17,7 @@ const always = require('ramda/src/always')
 const identity = require('ramda/src/identity')
 const when = require('ramda/src/when')
 const castArray = require('lodash/castArray')
-const isNonEmptyString = require('predicates/isNonEmptyString')
+const isNonEmptyString = require('ramda-adjunct/lib/isNonEmptyString').default
 const complement = require('ramda/src/complement')
 const { WithView } = require('components/View')
 const log = require('monocycle/utilities/log').Log('FieldGroup')
@@ -34,23 +34,23 @@ const getFieldPath = pipe(
 
 const WithFieldGroup = (options = {}, Cycle) => {
 
-const parseOptions = pipe(
-  Cycle.coerce,
-  over(lensProp('ItemScope'), 
-    unless(isFunction, always(identity))
+  const parseOptions = pipe(
+    Cycle.coerce,
+    over(lensProp('ItemScope'),
+      unless(isFunction, always(identity))
+    )
   )
-)
 
   const {
     ItemScope = identity,
-    has 
+    has
   } = parseOptions(options)
 
 
   return component => Cycle(component)
 
     .map(WithView({
-      has: has 
+      has: has
         .filter(Boolean)
         .map((field, i) =>
           field.isolation(ItemScope('' + i, field))
