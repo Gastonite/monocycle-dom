@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ava -v --fail-fast  **/*.spec.js",
     "reinstall": "rm -fr node_modules && npm i"
   },
   "author": "",
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@cycle/time": "^0.16.0",
+    "ava": "1.0.0-rc.2",
     "cyclejs-test-helpers": "^4.0.0",
     "jsverify": "^0.8.4",
     "snabbdom-to-html": "^5.1.1"
