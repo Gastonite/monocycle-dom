@@ -7,8 +7,8 @@
     "test": "ava -v --fail-fast  **/*.spec.js",
     "reinstall": "rm -fr node_modules && npm i"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Clément Pasquier",
+  "license": "GPL",
   "browserify": {
     "transform": [
       "brfs"
