@@ -1,12 +1,11 @@
 const test = require('ava')
-const { Stream: Observable } = require('xstream')
+const { Stream: $ } = require('xstream')
 const { WithView } = require('./View')
 const pipe = require('ramda/src/pipe')
 const keys = require('ramda/src/keys')
-const { makeComponent: _makeComponent } = require('monocycle/component')
-const { withViewCombiner } = require('../utilities/withViewCombiner')
+const { Component } = require('monocycle/component')
 const isFunction = require('ramda-adjunct/lib/isFunction').default
-const { withDefaultView } = require('../utilities/withDefaultView')
+const { withDOM } = require('../')
 const { div } = require('@cycle/dom')
 const modules = require('snabbdom-to-html/modules')
 const renderVnode = require('snabbdom-to-html/init')([
@@ -16,28 +15,23 @@ const renderVnode = require('snabbdom-to-html/init')([
   modules.style
 ])
 
-const makeComponent = pipe(
-  withDefaultView,
-  withViewCombiner
-)(_makeComponent)
-
-const Component = makeComponent()
+withDOM(Component)
 
 const viewMacro = (t, getSpec) => {
 
 
-  const { input, expected, previousComponent } = getSpec()
+  const { input, expected, before } = getSpec()
 
   t.plan(2)
 
   const component = WithView(input)
     .apply(void 0,
-      isFunction(previousComponent)
-        ? [previousComponent]
+      isFunction(before)
+        ? [before]
         : []
     )
 
-  const sinks = component({ DOM: void 0 })
+  const sinks = component({ DOM: 1 })
 
   t.deepEqual(keys(sinks), ['DOM'])
 
@@ -46,7 +40,14 @@ const viewMacro = (t, getSpec) => {
     .map(actual => t.is(actual, expected))
 }
 
-test(`creates a view that 'has' a string`, viewMacro, () => ({
+test(`creates an empty view`, viewMacro, () => ({
+  input: {
+    Component,
+  },
+  expected: '<div></div>'
+}))
+
+test(`creates a view`, viewMacro, () => ({
   input: {
     Component,
     sel: '#ga.zo',
@@ -57,7 +58,8 @@ test(`creates a view that 'has' a string`, viewMacro, () => ({
 }))
 
 
-test(`creates a view from another component`, viewMacro, () => ({
+
+test(`creates a view from previous component`, viewMacro, () => ({
   input: {
     Component,
     has: 'Hi world!',
@@ -66,8 +68,8 @@ test(`creates a view from another component`, viewMacro, () => ({
     }
   },
   expected: '<div class="zo another" style="color: black">Hi world!</div>',
-  previousComponent: sources => ({
-    DOM: Observable.of(div('.zo', {
+  before: sources => ({
+    DOM: $.of(div('.zo', {
       style: {
         color: 'black'
       }
@@ -76,7 +78,7 @@ test(`creates a view from another component`, viewMacro, () => ({
 }))
 
 
-test(`creates a view that 'has' a component`, viewMacro, () => ({
+test(`creates a nested view`, viewMacro, () => ({
   input: {
     Component,
     sel: '#zo.bu',
@@ -90,7 +92,7 @@ test(`creates a view that 'has' a component`, viewMacro, () => ({
   expected: '<div id="zo" class="bu"><div class="ga">meu</div></div>'
 }))
 
-test(`creates a dynamic view from a plain object`, viewMacro, () => ({
+test(`creates a dynamic view`, viewMacro, () => ({
   input: {
     Component,
     has: 'meu',
@@ -103,14 +105,14 @@ test(`creates a dynamic view from a plain object`, viewMacro, () => ({
     })
   },
   expected: '<div>Hello world !</div>',
-  previousComponent: sources => ({ DOM: Observable.of('world') })
+  before: sources => ({ DOM: $.of('world') })
 }))
 
 test(`creates a dynamic view from an observable`, viewMacro, () => ({
   input: {
     Component,
     has: 'meu',
-    from: (component, sources) => Observable.of({
+    from: (component, sources) => $.of({
       has: [
         'Hello ',
         component,
@@ -119,11 +121,11 @@ test(`creates a dynamic view from an observable`, viewMacro, () => ({
     })
   },
   expected: '<div>Hello world !</div>',
-  previousComponent: sources => ({ DOM: Observable.of('world') })
+  before: sources => ({ DOM: $.of('world') })
 }))
 
 
-test(`creates a view with dynamic classes`, viewMacro, () => ({
+test(`creates a dynamic view that overrides predefined options`, viewMacro, () => ({
   input: {
     Component,
     class: {
@@ -131,7 +133,7 @@ test(`creates a view with dynamic classes`, viewMacro, () => ({
       zo: true
     },
     has: 'meu',
-    from: (component, sources) => Observable.of({
+    from: (component, sources) => $.of({
       class: {
         bu: true,
         ga: true,
@@ -140,5 +142,5 @@ test(`creates a view with dynamic classes`, viewMacro, () => ({
     })
   },
   expected: '<div class="ga zo bu">meu</div>',
-  previousComponent: sources => ({ DOM: Observable.of('world') })
+  before: sources => ({ DOM: $.of('world') })
 }))

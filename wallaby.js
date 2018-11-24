@@ -8,6 +8,7 @@ module.exports = function () {
     ],
 
     tests: [
+      // 'View/*spec.js',
       '**/*spec.js',
       '!node_modules/**/*',
     ],
