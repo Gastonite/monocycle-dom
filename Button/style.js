@@ -17,7 +17,8 @@ const baseBgColors = {
 const ButtonStyle = ({
   color = {},
   bgColor = {},
-  minHeight = rem(4)
+  minHeight = rem(4),
+  minWidth = rem(4),
 } = {}) => {
 
   color = { ...baseColors, ...color }
@@ -46,6 +47,7 @@ const ButtonStyle = ({
       $debugName: 'Button',
       // height: '100%',
       // minWi: '100%',
+      minWidth,
       minHeight,
       position: 'relative',
       // display: 'inline-block',

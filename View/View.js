@@ -22,20 +22,17 @@ const concat = require('ramda/src/concat')
 const { h } = require('snabbdom/h')
 const mergeDeepRight = require('ramda/src/mergeDeepRight')
 const { WithDynamic } = require('monocycle/components/Dynamic')
-const { makeComponent } = require('monocycle/component')
+const { Component } = require('monocycle')
 const isFunctor = require('@f/is-functor')
 const log = require('monocycle/utilities/log').Log('View')
 
 const makeView = pipe(
   coerce,
-  log.partial('makeView()'),
+  // log.partial('makeView()'),
   over(lensProp('sel'), pipe(
     unless(isNonEmptyString, always('.')),
     when(test(/^[.#]+/), concat('div')),
     when(endsWith('.'), slice(0, -1)),
-  )),
-  over(lensProp('Component'), pipe(
-    unless(isFunction, () => makeComponent())
   )),
   over(lensProp('has'), pipe(
     when(isEmpty, always(''))
@@ -48,12 +45,14 @@ const makeView = pipe(
   //   ))(options)
   // },
 
-  ({ has, sel, Component, ...options }) => {
-
-
-    console.log('View()', sel)
+  ({ has, sel, ...options }) => {
+    options
+    // console.log('View()', sel)
     return Component({
-      View: h.bind(void 0, sel, options),
+      View: pipe(
+        h.bind(void 0, sel, options),
+        log.partial('render', sel, options),
+      ),
       has
     })
   }
@@ -61,12 +60,7 @@ const makeView = pipe(
 
 const WithView = pipe(
   over(lensProp('from'), unless(isFunction, always(void 0))),
-  over(lensProp('Component'), pipe(
-    unless(isFunction, () => makeComponent())
-  )),
   ({ from, ...options }) => {
-
-    const { Component } = options
 
     if (from)
       return WithDynamic(pipe(

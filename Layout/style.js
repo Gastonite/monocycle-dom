@@ -57,6 +57,7 @@ module.exports = ({
     {
       $debugName: 'Layout',
       backgroundColor: colors.background,
+      padding: 'var(--gutter)',
       ...rowStyle,
       '&.fill': fillParent,
       // // '&.spaced': {

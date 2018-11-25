@@ -5,15 +5,12 @@ const pipe = require('ramda/src/pipe')
 const keys = require('ramda/src/keys')
 const { Component } = require('monocycle/component')
 const isFunction = require('ramda-adjunct/lib/isFunction').default
-const { withDOM } = require('../')
+const { withDOM } = require('..')
 const { div } = require('@cycle/dom')
-const modules = require('snabbdom-to-html/modules')
-const renderVnode = require('snabbdom-to-html/init')([
-  modules.class,
-  modules.props,
-  modules.attributes,
-  modules.style
-])
+const { mockDOMSource } = require('@cycle/dom')
+const { select } = require('snabbdom-selector')
+const { mockTimeSource } = require('@cycle/time')
+const { renderVnode } = require('../utilities/renderVnode')
 
 withDOM(Component)
 
@@ -144,3 +141,46 @@ test(`creates a dynamic view that overrides predefined options`, viewMacro, () =
   expected: '<div class="ga zo bu">meu</div>',
   before: sources => ({ DOM: $.of('world') })
 }))
+
+
+const withTime = (test) => {
+  return function () {
+    const Time = mockTimeSource();
+
+    test(Time);
+
+    return new Promise((resolve, reject) =>
+      Time.run(err => err ? reject(err) : resolve(true))
+    )
+  }
+}
+
+
+
+// test(`bla`, (done) => {
+
+//   const Time = mockTimeSource();
+
+//   const addClick$ = Time.diagram(`---x--x-------x--x--|`);
+//   const subtractClick$ = Time.diagram(`---------x----------|`);
+//   const expectedCount$ = Time.diagram(`0--1--2--1----2--3--|`);
+
+//   // const DOM = mockDOMSource({
+//   //   '.add': {
+//   //     click: addClick$
+//   //   },
+
+//   //   '.subtract': {
+//   //     click: subtractClick$
+//   //   },
+//   // });
+
+//   // const counter = Counter({ DOM });
+
+//   // const count$ = counter.DOM.map(vtree => select('.count', vtree)[0].text);
+
+//   Time.assertEqual(addClick$, addClick$)
+
+//   return Time.run(done);
+
+// })

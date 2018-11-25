@@ -3,10 +3,6 @@ const mergeSelectors = require('snabbdom-merge/merge-selectors')
 
 const mergeOptions = (defaultOptions, options) => {
 
-  console.log('mergeOptions()', {
-    defaultOptions, options
-  })
-
   return ({
     ...defaultOptions,
     ...options,

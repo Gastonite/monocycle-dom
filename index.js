@@ -2,7 +2,8 @@
 
 const { pipe } = require('monocycle/utilities/pipe')
 const { assign } = require('monocycle/utilities/assign')
-const log = require('monocycle/utilities/log').Log('DOM')
+// const log = require('monocycle/utilities/log').Log('DOM')
+const { mergeOptions } = require('./utilities/mergeOptions')
 const always = require('ramda/src/always')
 const objOf = require('ramda/src/objOf')
 const when = require('ramda/src/when')
@@ -18,7 +19,7 @@ const ensureArray = require('ramda-adjunct/lib/ensureArray').default
 const mergeViews = require('snabbdom-merge/merge-all')
 
 const makeDefaultView = pipe(
-  log.partial('makeDefaultView()'),
+  // log.partial('makeDefaultView()'),
   when(isFalsy, always('')),
   $.of,
   objOf('DOM'),
@@ -27,7 +28,7 @@ const makeDefaultView = pipe(
 
 
 const ViewCombiner = pipe(
-  log.partial('ViewCombiner()'),
+  // log.partial('ViewCombiner()'),
   prop('View'),
   // log.partial(1),
 
@@ -61,9 +62,13 @@ const withDOM = Component => {
   )(Component)
 }
 
+
+
+
 module.exports = {
   default: withDOM,
   withDOM,
   ViewCombiner,
-  makeDefaultView
+  makeDefaultView,
+  mergeOptions
 }
