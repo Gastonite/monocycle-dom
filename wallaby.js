@@ -3,13 +3,16 @@ module.exports = function () {
     files: [
       '**/*.js',
       '!**/*.spec.js',
-      '!node_modules/**/*',
+      '!**/node_modules/**/*',
+      'node_modules/monocycle/**/*.js',
+      'node_modules/monocycle-abstract/**/*.js',
       '!old/**/*',
     ],
 
     tests: [
       // 'Button/*spec.js',
       // 'View/*spec.js',
+      // 'Clickable/*spec.js',
       '**/*spec.js',
       '!node_modules/**/*',
     ],
@@ -17,8 +20,9 @@ module.exports = function () {
       type: 'node'
     },
     testFramework: 'ava',
-    setup: function (wallaby) {
+    setup: wallaby => {
 
-    }
-  };
-};
+    },
+    debug: true
+  }
+}

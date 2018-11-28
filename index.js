@@ -2,15 +2,18 @@
 
 const { pipe } = require('monocycle/utilities/pipe')
 const { assign } = require('monocycle/utilities/assign')
+const { ensurePlainObj } = require('monocycle/utilities/ensurePlainObj')
 // const log = require('monocycle/utilities/log').Log('DOM')
-const { mergeOptions } = require('./utilities/mergeOptions')
+const { mergeViewOptions } = require('./utilities/mergeViewOptions')
 const always = require('ramda/src/always')
 const objOf = require('ramda/src/objOf')
 const when = require('ramda/src/when')
 const prop = require('ramda/src/prop')
 const map = require('ramda/src/map')
 const unless = require('ramda/src/unless')
+const __ = require('ramda/src/__')
 const filter = require('ramda/src/filter')
+const merge = require('ramda/src/merge')
 const apply = require('ramda/src/apply')
 const { Stream: $ } = require('xstream')
 const isFalsy = require('ramda-adjunct/lib/isFalsy').default
@@ -47,9 +50,12 @@ const ViewCombiner = pipe(
   // objOf('DOM')
 )
 
-const withDOM = Component => {
+const withDOMOld = Component => {
 
   const Combiners = Component.Combiners
+
+
+
 
   return pipe(
     assign({
@@ -61,14 +67,20 @@ const withDOM = Component => {
     }),
   )(Component)
 }
-
-
-
+const withDOM = makeComponent => pipe(
+  ensurePlainObj,
+  merge(__, {
+    makeDefault: makeDefaultView,
+    Combiners: options => ({
+      ...Combiners(options),
+      DOM: ViewCombiner(options)
+    }),
+  }),
+  makeComponent
+)
 
 module.exports = {
-  default: withDOM,
-  withDOM,
   ViewCombiner,
   makeDefaultView,
-  mergeOptions
+  mergeViewOptions
 }

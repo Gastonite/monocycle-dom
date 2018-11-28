@@ -49,10 +49,10 @@ module.exports = ({
   return [
     layerParent,
     media({ minWidth: 0, maxWidth: breakpoint }, {
-      '&:not(.noAdapt)': columnStyle
+      '&:not(.noAdapt.col)': columnStyle
     }),
     media({ minWidth: breakpoint }, {
-      '&:not(.noAdapt)': rowStyle
+      '&.col:not(.noAdapt)': rowStyle
     }),
     {
       $debugName: 'Layout',

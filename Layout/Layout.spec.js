@@ -12,7 +12,7 @@ const renderVnode = require('snabbdom-to-html/init')([
   modules.style
 ])
 
-withDOM(Component)
+// withDOM(Component)
 
 const layoutMacro = (t, getSpec) => {
 
@@ -42,10 +42,10 @@ layoutMacro.title = () => {
   return `creates a ${kind}layout`
 }
 
-test(layoutMacro, () => ({
-  input: {
-    Component,
-    // has: 'yo'
-  },
-  expected: '<div class="Layout"></div>'
-}))
+// test(layoutMacro, () => ({
+//   input: {
+//     Component,
+//     // has: 'yo'
+//   },
+//   expected: '<div class="Layout"></div>'
+// }))

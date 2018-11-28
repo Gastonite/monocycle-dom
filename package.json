@@ -26,6 +26,7 @@
     "csx": "^9.0.0",
     "cyclejs-utils": "^4.0.2",
     "lodash": "^4.17.11",
+    "monocycle-abstract": "git+https://github.com/Gastonite/monocycle-abstract.git#dev",
     "ramda": "^0.25.0",
     "ramda-adjunct": "^2.11.0",
     "snabbdom": "^0.7.2",

@@ -1,31 +1,30 @@
 const test = require('ava')
 const { Stream: $ } = require('xstream')
 const { WithClickable } = require('./Clickable')
-
 const jsc = require("jsverify");
 const equals = require("ramda/src/equals");
 const when = require("ramda/src/when");
-const keys = require("ramda/src/keys");
 const always = require("ramda/src/always");
-const { diagramArbitrary, wthTime } = require('cyclejs-test-helpers')
+const { diagramArbitrary: diagramArb } = require('cyclejs-test-helpers')
 const { pipe } = require('monocycle/utilities/pipe')
-const { withTime } = require('../utilities/withTime')
 const { renderVnode } = require('../utilities/renderVnode')
-const { div } = require('@cycle/dom')
-const { makeView, WithView } = require('../View')
-const { withDOM } = require('..')
-const { Component } = require('monocycle/component')
+const { withTimeMacro } = require('../utilities/withTimeMacro')
+const { WithFactoryMacro } = require('../utilities/WithFactoryMacro')
 
-withDOM(Component)
+const testsOptions = { tests: 1 }
 
-test("Clickable", withTime((Time, t) => {
+const ClickableMacro = pipe(
+  withTimeMacro,
+  WithFactoryMacro(WithClickable)
+)
 
-  const property = jsc.forall(diagramArbitrary, diagramArbitrary, (a, b) => {
+test('Clickable', ClickableMacro((t, Time, withClickable) => {
 
-    const up$ = Time.diagram(a);
-    const down$ = Time.diagram(b);
+  const property = jsc.forall(diagramArb, diagramArb, (a, b) => {
 
-    const withClickable = WithClickable()
+    const up$ = Time.diagram(a)
+    const down$ = Time.diagram(b)
+
     const clickable = withClickable()
 
     const sinks = clickable({
@@ -41,12 +40,13 @@ test("Clickable", withTime((Time, t) => {
       sinks.DOM.map(renderVnode),
       $.merge(
         down$.mapTo(' class="click"'),
-        up$.startWith(false).mapTo(''),
+        up$.startWith(true).mapTo(''),
       ).map(classes => `<div${classes}></div>`),
-      t.is
+      t.is.bind(t)
     )
+
     return true
   })
 
-  jsc.assert(property, { tests: 100 })
-}));
+  jsc.assert(property, testsOptions)
+}))
