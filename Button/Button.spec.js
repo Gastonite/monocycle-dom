@@ -46,7 +46,7 @@ test(`with no arguments`, ButtonMacro((t, Time, withButton, ...args) => {
       })
     })
 
-    t.deepEqual(keys(sinks), ['DOM'])
+    t.deepEqual(keys(sinks), ['click$', 'DOM'])
 
     Time.assertEqual(
       sinks.DOM.map(renderVnode),

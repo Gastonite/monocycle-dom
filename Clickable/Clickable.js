@@ -2,6 +2,7 @@ const { Stream: $ } = require('xstream')
 const { makeComponent } = require('monocycle')
 const { pipe } = require('monocycle/utilities/pipe')
 const { coerce } = require('monocycle/utilities/coerce')
+const { WithListener } = require('monocycle/components/Listener')
 const { WithView } = require('../View')
 const over = require('ramda/src/over')
 const lensProp = require('ramda/src/lensProp')
@@ -41,21 +42,27 @@ const WithClickable = pipe(
   ),
   ({ Component, downEvent, upEvent, ...options }) => {
 
-    return WithView({
-      ...options,
-      Component,
-      from: (sinks, sources) => {
-
-        return $.merge(
-          sources.DOM.events(downEvent.name, downEvent.options).mapTo(true),
-          sources.DOM.events(upEvent.name, upEvent.options).mapTo(false),
-        ).startWith(false)
+    return pipe(
+      WithListener([
+        {
+          from: (sinks, sources) => $.merge(
+            sources.DOM.events(downEvent.name, downEvent.options).mapTo(true),
+            sources.DOM.events(upEvent.name, upEvent.options).mapTo(false),
+          ),
+          to: 'click$'
+        }
+      ]),
+      WithView({
+        ...options,
+        Component,
+        from: (sinks, sources) => sinks.click$
+          .startWith(false)
           .map(pipe(
             objOf('click'),
             objOf('class'),
           ))
-      }
-    })
+      })
+    )
   },
 )
 module.exports = {
