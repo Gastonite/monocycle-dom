@@ -43,12 +43,12 @@ const viewMacro = (t, getSpec) => {
     .map(actual => t.is(actual, expected))
 }
 
-test(`creates an empty view (with no arguments)`, viewMacro, () => ({
+test(`creates an empty dumb view (with no arguments)`, viewMacro, () => ({
   args: [],
   expected: '<div></div>'
 }))
 
-test(`creates an empty view (with no options)`, viewMacro, () => ({
+test(`creates an empty dumb view (with no options)`, viewMacro, () => ({
   args: {},
   expected: '<div></div>'
 }))
@@ -63,7 +63,7 @@ test(`creates a view`, viewMacro, () => ({
 
 
 
-test(`creates a view from previous component`, viewMacro, () => ({
+test(`creates a dumb view from previous component`, viewMacro, () => ({
   input: {
     has: 'Hi world!',
     class: {
@@ -81,7 +81,7 @@ test(`creates a view from previous component`, viewMacro, () => ({
 }))
 
 
-test(`creates a nested view`, viewMacro, () => ({
+test(`creates a dumb view within a dumb view`, viewMacro, () => ({
   input: {
     sel: '#zo.bu',
     has: WithView({
@@ -95,9 +95,9 @@ test(`creates a nested view`, viewMacro, () => ({
 test(`creates a reactive view`, viewMacro, () => ({
   before: sources => ({ ga: $.of('world') }),
   input: {
-    has: 'meu',
+    children: 'meu',
     from: (sinks, sources) => sinks.ga.map(ga => ({
-      has: [
+      children: [
         'Hello ',
         ga,
         { text: ' !' },
