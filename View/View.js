@@ -30,6 +30,7 @@ const isFunctor = require('@f/is-functor')
 const log = require('monocycle/utilities/log').Log('View')
 const { makeDefaultView, ViewCombiner, mergeViewOptions } = require('../')
 // const mergeSelectors = require('snabbdom-merge/merge-selectors')
+const toHtml = require('snabbdom-to-html') //snabbdom-to-html's typings are broken
 
 // mergeSelectors('')
 
@@ -66,9 +67,16 @@ const parseViewOptions = pipe(
 
 const render = ({ has, sel, children, ...options }) => {
 
-  console.error('render()', { sel, has, children, options })
+  const vnode = h(sel, options, children || has)
 
-  return h(sel, options, children || has)
+  // log('render()', {
+  //   // sel,
+  //   // has,
+  //   // children,
+  //   // options,
+  //   html: toHtml(vnode)
+  // })
+  return vnode
 }
 
 
@@ -120,7 +128,6 @@ const WithView = pipe(
                   render
                 )(value)
               })
-              .map(log.partial('View view:'))
           },
           to: 'DOM'
         }
