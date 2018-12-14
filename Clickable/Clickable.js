@@ -43,15 +43,15 @@ const WithClickable = pipe(
   ({ Component, downEvent, upEvent, ...options }) => {
 
     return pipe(
-      WithListener([
-        {
-          from: (sinks, sources) => $.merge(
-            sources.DOM.events(downEvent.name, downEvent.options).mapTo(true),
-            sources.DOM.events(upEvent.name, upEvent.options).mapTo(false),
-          ),
-          to: 'click$'
-        }
-      ]),
+      WithListener({
+        from: (sinks, sources) => $.merge(
+          sources.DOM.events(downEvent.name, downEvent.options)
+            .mapTo(true),
+          sources.DOM.events(upEvent.name, upEvent.options)
+            .mapTo(false),
+        ),
+        to: 'click$'
+      }),
       WithView({
         ...options,
         Component,

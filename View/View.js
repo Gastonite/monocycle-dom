@@ -1,5 +1,7 @@
-const $ = require('xstream').default
+const { Stream: $ } = require('xstream')
 const { pipe } = require('monocycle/utilities/pipe')
+const { ensurePlainObj } = require('monocycle/utilities/ensurePlainObj')
+const { coerce, Coerce } = require('monocycle/utilities/coerce')
 const isFunction = require('ramda-adjunct/lib/isFunction').default
 const isNonEmptyString = require('ramda-adjunct/lib/isNonEmptyString').default
 const unless = require('ramda/src/unless')
@@ -8,8 +10,6 @@ const endsWith = require('ramda/src/endsWith')
 const isEmpty = require('ramda/src/isEmpty')
 const ifElse = require('ramda/src/ifElse')
 const always = require('ramda/src/always')
-const { coerce } = require('monocycle/utilities/coerce')
-const { ensurePlainObj } = require('monocycle/utilities/ensurePlainObj')
 const lensProp = require('ramda/src/lensProp')
 const slice = require('ramda/src/slice')
 const over = require('ramda/src/over')
@@ -20,9 +20,10 @@ const { h } = require('snabbdom/h')
 const { WithListener } = require('monocycle/components/Listener')
 const { makeComponent } = require('monocycle')
 const { WithSymbols } = require('monocycle-abstract/symbols')
-const log = require('monocycle/utilities/log').Log('View')
-const { makeDefaultView, ViewCombiner, mergeViewOptions } = require('../')
-const toHtml = require('snabbdom-to-html')
+const { DefaultView, ViewCombiner, mergeViewOptions } = require('../')
+
+
+const coerceChildren = Coerce('children')
 
 const parseViewOptions = pipe(
   over(lensProp('sel'), pipe(
@@ -35,19 +36,7 @@ const parseViewOptions = pipe(
   )),
 )
 
-const render = ({ sel, children, ...options }) => {
-
-  const vnode = h(sel, options, children)
-
-  log('render()', {
-    // sel,
-    // has,
-    // children,
-    // options,
-    html: toHtml(vnode)
-  })
-  return vnode
-}
+const render = ({ sel, children, ...options }) => h(sel, options, children)
 
 const WithDumbView = pipe(
   ensurePlainObj,
@@ -56,12 +45,9 @@ const WithDumbView = pipe(
   )),
   ({ Component, sel, has, options }) => {
 
-    // log('WithDumbView()', { sel, has })
-    // if ()
     return component => Component([
       component,
       Component({
-        // View: h.bind(void 0, sel, options),
         View: children => render({ children, sel, ...options }),
         has
       })
@@ -71,30 +57,24 @@ const WithDumbView = pipe(
 
 const WithReactiveView = ({ Component, from, sel, options }) => {
 
-  // log('WithReactiveView()', {
-  //   // sel,
-  //   options
-  // })
-
-  options = { ...options, sel }
+  const setDefaultOptions = mergeViewOptions({ ...options, sel })
 
   return WithListener({
     Component,
-    has: [
-      {
-        from: (sinks, sources) => {
 
-          return (from(sinks, sources) || $.empty())
-            .map(pipe(
-              coerce,
-              mergeViewOptions(options),
-              parseViewOptions,
-              render
-            ))
-        },
-        to: 'DOM'
-      }
-    ]
+    from: (sinks, sources) => {
+
+      return (from(sinks, sources) || $.empty())
+        // .debug(`ReactiveView(${sel}).from`)
+        .map(pipe(
+          coerceChildren,
+          setDefaultOptions,
+          parseViewOptions,
+          render
+        ))
+    },
+    to: 'DOM'
+
   })
 }
 
@@ -106,7 +86,7 @@ const WithView = pipe(
         mergeOptions: mergeViewOptions
       }),
     )(makeComponent({
-      makeDefault: makeDefaultView,
+      Default: DefaultView,
       Combiners: options => ({
         DOM: ViewCombiner(options)
       })
@@ -128,9 +108,7 @@ const WithView = pipe(
   ),
 )
 
-
 module.exports = {
   WithView,
-  // WithDynamicView,
   default: WithView,
 }

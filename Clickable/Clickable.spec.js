@@ -8,8 +8,8 @@ const always = require("ramda/src/always");
 const { diagramArbitrary: diagramArb } = require('cyclejs-test-helpers')
 const { pipe } = require('monocycle/utilities/pipe')
 const { renderVnode } = require('../utilities/renderVnode')
-const { withTimeMacro } = require('../utilities/withTimeMacro')
-const { WithFactoryMacro } = require('../utilities/WithFactoryMacro')
+const { withTimeMacro } = require('monocycle/utilities/withTimeMacro')
+const { WithFactoryMacro } = require('monocycle/utilities/WithFactoryMacro')
 
 const testsOptions = { tests: 1 }
 
@@ -18,7 +18,7 @@ const ClickableMacro = pipe(
   WithFactoryMacro(WithClickable)
 )
 
-test('Clickable', ClickableMacro((t, Time, withClickable) => {
+test(`listens for 'mouseup' and 'mousedown' and toggle click class`, ClickableMacro((t, Time, withClickable) => {
 
   const property = jsc.forall(diagramArb, diagramArb, (a, b) => {
 

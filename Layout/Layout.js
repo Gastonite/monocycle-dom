@@ -17,8 +17,24 @@ const merge = require('ramda/src/merge')
 const __ = require('ramda/src/__')
 const assoc = require('ramda/src/assoc')
 const { WithView } = require('../View')
+const isFunction = require('ramda-adjunct/lib/isFunction').default
 
 const WithLayout = pipe(
+  coerce,
+  over(lensProp('Component'), pipe(
+    unless(isFunction, () =>
+      pipe(
+        WithSymbols({
+          mergeOptions: mergeViewOptions
+        }),
+      )(makeComponent({
+        Default: DefaultView,
+        Combiners: options => ({
+          DOM: ViewCombiner(options)
+        })
+      }))
+    )
+  )),
   tap(() => {
 
     Component.set('View', WithView)
@@ -26,7 +42,6 @@ const WithLayout = pipe(
       sel: '.Layout'
     })
   }),
-  coerce,
   over(lensProp('gutter'), pipe(
     defaultTo(true),
     when(isBoolean, when(Boolean, always(2)))

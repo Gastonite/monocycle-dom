@@ -42,10 +42,10 @@ layoutMacro.title = () => {
   return `creates a ${kind}layout`
 }
 
-// test(layoutMacro, () => ({
-//   input: {
-//     Component,
-//     // has: 'yo'
-//   },
-//   expected: '<div class="Layout"></div>'
-// }))
+test.skip(layoutMacro, () => ({
+  input: {
+    Component,
+    // has: 'yo'
+  },
+  expected: '<div class="Layout"></div>'
+}))

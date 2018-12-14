@@ -7,7 +7,7 @@ const when = require('ramda/src/when')
 const defaultTo = require('ramda/src/defaultTo')
 const unless = require('ramda/src/unless')
 const tap = require('ramda/src/tap')
-const { makeDefaultView, ViewCombiner, mergeViewOptions } = require('../')
+const { DefaultView, ViewCombiner, mergeViewOptions } = require('../')
 const { WithSymbols } = require('monocycle-abstract')
 const either = require('ramda/src/either')
 const always = require('ramda/src/always')
@@ -33,7 +33,7 @@ const WithButton = pipe(
           mergeOptions: mergeViewOptions
         }),
       )(makeComponent({
-        makeDefault: makeDefaultView,
+        Default: DefaultView,
         Combiners: options => ({
           DOM: ViewCombiner(options)
         })

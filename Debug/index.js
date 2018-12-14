@@ -1,6 +1,6 @@
 const stringify = require('monocycle/utilities/stringify')
 const { pre } = require('@cycle/dom')
-const { default: $ } = require('xstream')
+const { Stream: $ } = require('xstream')
 
 
 const WithDebug = ({

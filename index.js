@@ -21,8 +21,8 @@ const isFunction = require('ramda-adjunct/lib/isFunction').default
 const ensureArray = require('ramda-adjunct/lib/ensureArray').default
 const mergeViews = require('snabbdom-merge/merge-all')
 
-const makeDefaultView = pipe(
-  // log.partial('makeDefaultView()'),
+const DefaultView = pipe(
+  // log.partial('DefaultView()'),
   when(isFalsy, always('')),
   $.of,
   objOf('DOM'),
@@ -59,7 +59,7 @@ const withDOMOld = Component => {
 
   return pipe(
     assign({
-      makeDefault: makeDefaultView,
+      Default: DefaultView,
       Combiners: options => ({
         ...Combiners(options),
         DOM: ViewCombiner(options)
@@ -70,7 +70,7 @@ const withDOMOld = Component => {
 const withDOM = makeComponent => pipe(
   ensurePlainObj,
   merge(__, {
-    makeDefault: makeDefaultView,
+    Default: DefaultView,
     Combiners: options => ({
       ...Combiners(options),
       DOM: ViewCombiner(options)
@@ -81,6 +81,6 @@ const withDOM = makeComponent => pipe(
 
 module.exports = {
   ViewCombiner,
-  makeDefaultView,
+  DefaultView,
   mergeViewOptions
 }

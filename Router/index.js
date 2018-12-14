@@ -1,6 +1,6 @@
-const { default: $ } = require('xstream')
+const { Stream: $ } = require('xstream')
 const KindReducer = require('utilities/kind')
-const { WithSwitch } = require('components/Switch')
+const { WithSwitch } = require('../Switch')
 const prop = require('ramda/src/prop')
 const match = require('ramda/src/match')
 const pipe = require('ramda/src/pipe')

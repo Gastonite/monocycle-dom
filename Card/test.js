@@ -16,7 +16,6 @@
 //   });
 // });
 const { mockDOMSource } = require('@cycle/dom');
-const { select } = require('snabbdom-selector')
 const { mockTimeSource } = require('@cycle/time')
 const { makeCard } = require('./');
 const { ok } = require('assert')

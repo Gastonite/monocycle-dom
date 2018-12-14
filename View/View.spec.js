@@ -1,15 +1,10 @@
 const test = require('ava')
 const { Stream: $ } = require('xstream')
 const { WithView } = require('./View')
-const pipe = require('ramda/src/pipe')
 const keys = require('ramda/src/keys')
-const { Component } = require('monocycle/component')
 const isFunction = require('ramda-adjunct/lib/isFunction').default
 const ensureArray = require('ramda-adjunct/lib/ensureArray').default
-const { withDOM } = require('..')
 const { div } = require('@cycle/dom')
-const { mockDOMSource } = require('@cycle/dom')
-const { select } = require('snabbdom-selector')
 const { mockTimeSource } = require('@cycle/time')
 const { renderVnode } = require('../utilities/renderVnode')
 

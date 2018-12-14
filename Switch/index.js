@@ -1,4 +1,4 @@
-const { default: $ } = require('xstream')
+const $ = require('xstream').default
 const noop = require('lodash/noop')
 const identical = require('ramda/src/identical')
 const either = require('ramda/src/either')
@@ -46,8 +46,9 @@ const WithSwitch = (options = {}, Cycle) => {
     over(lensProp('Default'),
       unless(isFunction, always(NotFound))
     ),
-    options =>
-      over(lensProp('resolve'), pipe(
+    options => {
+
+      return over(lensProp('resolve'), pipe(
         defaultTo(noop),
         unless(isFunction, pipe(
           when(isArray, pipe(
@@ -101,7 +102,8 @@ const WithSwitch = (options = {}, Cycle) => {
           )),
           unless(isFunction, always(noop))
         ))
-      ))(options),
+      ))(options)
+    },
   )
 
 
