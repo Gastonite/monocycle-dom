@@ -11,7 +11,7 @@ dependencies:
   ramda: 0.25.0
   ramda-adjunct: 2.13.0
   snabbdom: 0.7.2
-  snabbdom-merge: github.com/Gastonite/snabbdom-merge/671b51eb3f9ce1b559229d0e3d5fcd92ed077481
+  snabbdom-merge: github.com/Gastonite/snabbdom-merge/e23aa09502b3351180779de1d91b94f7cedd80f2
   typestyle: 2.0.1
   xstream: 11.7.0
 devDependencies:
@@ -3916,13 +3916,14 @@ packages:
     resolution:
       tarball: 'https://codeload.github.com/Gastonite/monocycle-abstract/tar.gz/324daa332e16e90e1dc16e54b00059a773574139'
     version: 1.0.0
-  github.com/Gastonite/snabbdom-merge/671b51eb3f9ce1b559229d0e3d5fcd92ed077481:
+  github.com/Gastonite/snabbdom-merge/e23aa09502b3351180779de1d91b94f7cedd80f2:
     dependencies:
       ramda: 0.23.0
+      snabbdom: 0.7.2
     dev: false
     name: snabbdom-merge
     resolution:
-      tarball: 'https://codeload.github.com/Gastonite/snabbdom-merge/tar.gz/671b51eb3f9ce1b559229d0e3d5fcd92ed077481'
+      tarball: 'https://codeload.github.com/Gastonite/snabbdom-merge/tar.gz/e23aa09502b3351180779de1d91b94f7cedd80f2'
     version: 0.0.2
 registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
@@ -3944,7 +3945,7 @@ specifiers:
   ramda: ^0.25.0
   ramda-adjunct: ^2.11.0
   snabbdom: ^0.7.2
-  snabbdom-merge: 'git+https://github.com/Gastonite/snabbdom-merge.git#dev'
+  snabbdom-merge: 'github:Gastonite/snabbdom-merge#dev'
   snabbdom-to-html: ^5.1.1
   typestyle: ^2.0.1
   xstream: ^11.7.0

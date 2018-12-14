@@ -31,7 +31,7 @@
     "ramda": "^0.25.0",
     "ramda-adjunct": "^2.11.0",
     "snabbdom": "^0.7.2",
-    "snabbdom-merge": "https://github.com/Gastonite/snabbdom-merge.git#dev",
+    "snabbdom-merge": "github:Gastonite/snabbdom-merge#dev",
     "typestyle": "^2.0.1",
     "xstream": "^11.7.0"
   },
